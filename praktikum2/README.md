@@ -1,496 +1,440 @@
-# README: Penjelasan Per Baris Kode Linked List
 
 ---
 
-## **`class Node:`**
+# **Linked List **
 
-Mendefinisikan sebuah class bernama **Node**, yaitu struktur dasar pada Linked List. Setiap Node menyimpan data dan alamat (pointer) menuju Node berikutnya.
-
----
-
-## **`def __init__(self, data=None, pointer=None):`**
-
-Ini adalah **constructor** yang otomatis dijalankan saat membuat Node baru.
-
-* `data` → nilai/isi yang disimpan dalam node.
-* `pointer` → referensi ke node berikutnya.
-
----
-
-## **`self.data = data`**
-
-Menyimpan nilai yang diterima ke atribut `data` milik node.
-Atribut ini dapat berupa string, angka, atau tipe data lain.
-
----
-
-## **`self.next = pointer`**
-
-Menyimpan alamat node berikutnya.
-Dalam Linked List, pointer ini menentukan ke mana node tersebut terhubung.
-
----
-
-#  CLASS LINKEDLIST
-
-## **`class LinkedList:`**
-
-Membuat struktur besar Linked List yang berisi banyak Node.
-Semua operasi seperti insert, remove, dan print berada di dalam class ini.
-
----
-
-## **`def __init__(self):`**
-
-Constructor LinkedList.
-
----
-
-## **`self.head = None`**
-
-`head` adalah node pertama dalam Linked List.
-Nilainya `None` karena list baru dibuat dan belum ada data.
-
----
-
-#  insert_at_first()
-
-## **`def insert_at_first(self, data):`**
-
-Fungsi untuk menambah elemen di bagian paling depan Linked List.
-
----
-
-## **`node = Node(data, self.head)`**
-
-Membuat node baru dengan:
-
-* `data` → nilai baru
-* `self.head` → menjadi pointer node tersebut sehingga mengarah ke head lama
-
-Ini membuat node baru otomatis berada di depan.
-
----
-
-## **`self.head = node`**
-
-Mengubah head menjadi node baru.
-Artinya node baru resmi menjadi elemen pertama.
-
----
-
-#  insert_at_last()
-
-## **`def insert_at_last(self, data):`**
-
-Fungsi untuk menambah elemen pada bagian akhir Linked List.
-
----
-
-## **`if self.head is None:`**
-
-Jika head kosong → list masih kosong.
-
----
-
-## **`self.head = Node(data)`**
-
-Karena list kosong, node yang pertama ditambahkan otomatis menjadi head.
-
----
-
-## **`else:`**
-
-Jika head tidak kosong → cari node paling akhir.
-
----
-
-## **`node_sekarang = self.head`**
-
-Mulai pencarian dari node pertama.
-
----
-
-## **`while node_sekarang.next:`**
-
-Loop berjalan selama masih ada node berikutnya.
-Digunakan untuk menemukan node paling akhir.
-
----
-
-## **`node_sekarang = node_sekarang.next`**
-
-Pindah ke node berikutnya sampai pointer berikutnya kosong.
-
----
-
-## **`node = Node(data)`**
-
-Membuat node baru tanpa pointer.
-
----
-
-## **`node_sekarang.next = node`**
-
-Menghubungkan node terakhir dengan node baru.
-Node baru menjadi elemen paling akhir.
-
----
-
-#  insert_at(index)
-
-## **`def insert_at(self, index, data):`**
-
-Menambahkan node baru pada posisi tertentu.
-
----
-
-## **`if index < 0 or index > self.length() - 1:`**
-
-Memastikan index valid, tidak boleh negatif atau melebihi panjang list.
-
----
-
-## **`print("index tidak valid")`**
-
-Menampilkan pesan jika index salah.
-
----
-
-## **`elif index == 0:`**
-
-Jika index 0 → berarti sisipkan di awal.
-
----
-
-## **`self.insert_at_first(data)`**
-
-Memanggil fungsi khusus untuk insert di depan.
-
----
-
-## **`urutan = 0`**
-
-Variabel penghitung posisi saat traversal.
-
----
-
-## **`node_sekarang = self.head`**
-
-Mulai dari node paling depan.
-
----
-
-## **`while urutan < index - 1:`**
-
-Loop untuk menuju node sebelum posisi tempat data ingin dimasukkan.
-
 ---
 
-## **`urutan += 1`**
+## **Pengertian Linked List**
 
-Meningkatkan hitungan posisi.
+Linked List adalah struktur data yang tersusun dari node-node.
+Setiap node menyimpan **data** dan **pointer** (alamat) ke node berikutnya.
+Struktur ini fleksibel karena ukurannya dapat berubah secara dinamis, memudahkan proses **insert** dan **remove** dibanding array.
 
 ---
 
-## **`node_sekarang = node_sekarang.next`**
+# **Kode Lengkap Linked List**
 
-Pindah ke node selanjutnya.
+```python
+class Node:
+    def __init__(self, data=None, pointer=None):
+        self.data = data
+        self.next = pointer
 
----
-
-## **`node = Node(data, node_sekarang.next)`**
-
-Node baru dibuat dan menunjuk ke node setelahnya.
-Ini menjaga struktur list tetap benar.
-
----
 
-## **`node_sekarang.next = node`**
+class LinkedList:
+    def __init__(self):
+        self.head = None
 
-Menghubungkan node sebelumnya ke node baru.
-Node berhasil disisipkan pada posisi yang diinginkan.
+    def insert_at_first(self, data):
+        node = Node(data, self.head)
+        self.head = node
 
----
+    def insert_at_last(self, data):
+        if self.head is None:
+            self.head = Node(data)
+        else:
+            node_sekarang = self.head
+            while node_sekarang.next:
+                node_sekarang = node_sekarang.next
 
-#  remove_first()
+            node = Node(data)
+            node_sekarang.next = node
 
-## **`def remove_first(self):`**
+    def insert_at(self, index, data):
+        if index < 0 or index > self.length() - 1:
+            print("index tidak valid")
+        elif index == 0:
+            self.insert_at_first(data)
+        else:
+            urutan = 0
+            node_sekarang = self.head
 
-Menghapus elemen pertama dalam list.
+            while urutan < index - 1:
+                urutan += 1
+                node_sekarang = node_sekarang.next
 
----
+            node = Node(data, node_sekarang.next)
+            node_sekarang.next = node
 
-## **`if self.head is None:`**
+    def remove_first(self):
+        if self.head is None:
+            print("tidak ada data yang bisa dihapus")
+        else:
+            self.head = self.head.next
 
-Jika kosong → tidak ada yang bisa dihapus.
+    def remove_last(self):
+        if self.head is None:
+            print("tidak ada data yang bisa dihapus")
+        elif self.head.next is None:
+            self.head = None
+        else:
+            node_sebelumnya = None
+            node_sekarang = self.head
 
----
+            while node_sekarang.next:
+                node_sebelumnya = node_sekarang
+                node_sekarang = node_sekarang.next
 
-## **`print("tidak ada data yang bisa dihapus")`**
+            node_sebelumnya.next = None
 
-Memberi tahu bahwa list kosong.
+    def remove_at(self, index):
+        if index < 0 or index >= self.length():
+            print("index invalid")
+        elif index == 0:
+            self.remove_first()
+        else:
+            urutan = 0
+            node_sekarang = self.head
 
----
+            while urutan < index - 1:
+                node_sekarang = node_sekarang.next
+                urutan += 1
 
-## **`self.head = self.head.next`**
+            node_sekarang.next = node_sekarang.next.next
 
-Jika ada data → cukup geser head ke node berikutnya.
-Node pertama otomatis terhapus.
+    def print(self):
+        if self.head is None:
+            print("data kosong")
+        else:
+            text_print = ''
+            node_sekarang = self.head
 
----
+            while node_sekarang:
+                text_print += str(node_sekarang.data) + " ==> "
+                node_sekarang = node_sekarang.next
 
-#  remove_last()
+            print(text_print)
 
-## **`def remove_last(self):`**
+    def length(self):
+        urutan = 0
+        data_sekarang = self.head
 
-Menghapus elemen paling akhir.
+        while data_sekarang:
+            data_sekarang = data_sekarang.next
+            urutan += 1
 
----
+        return urutan
 
-## **`if self.head is None:`**
 
-List kosong → tidak bisa hapus.
+LL = LinkedList()
 
----
+# insert
+LL.insert_at_first("jeruk")
+LL.insert_at_first("mangga")
+LL.insert_at_first("manggis")
+LL.insert_at_last("apel")
+LL.insert_at(2, "anggur")
 
-## **`elif self.head.next is None:`**
+# remove
+LL.remove_first()
+LL.remove_last()
+LL.remove_at(1)
+LL.remove_at(1)
 
-Jika hanya ada 1 node → hapus dengan menjadikan head = None.
+# print
+LL.print()
+print(LL.length())
+```
 
 ---
-
-## **`node_sebelumnya = None`**
 
-Menyimpan node sebelum node sekarang.
+# **Penjelasan Lengkap Per Baris**
 
 ---
 
-## **`node_sekarang = self.head`**
+## **1. Membuat Class Node**
 
-Mulai dari awal list.
+```python
+class Node:
+    def __init__(self, data=None, pointer=None):
+        self.data = data
+        self.next = pointer
+```
 
----
+**Penjelasan:**
 
-## **`while node_sekarang.next:`**
+* `class Node:`
+  Membuat blueprint untuk node yang akan menjadi elemen LinkedList.
 
-Loop mencari node terakhir.
-
----
+* `def __init__(self, data=None, pointer=None):`
+  Konstruktor untuk mengisi data awal dan pointer.
 
-## **`node_sebelumnya = node_sekarang`**
+* `self.data = data`
+  Menyimpan isi data pada node.
 
-Node sebelumnya dipindahkan.
+* `self.next = pointer`
+  Menyimpan alamat node selanjutnya (default = None).
 
 ---
 
-## **`node_sekarang = node_sekarang.next`**
+## **2. Membuat Class LinkedList**
 
-Bergerak maju ke node selanjutnya.
+```python
+class LinkedList:
+    def __init__(self):
+        self.head = None
+```
 
----
-
-## **`node_sebelumnya.next = None`**
+**Penjelasan:**
 
-Menghapus node terakhir dengan memutus pointer.
+* Membuat kelas LinkedList.
+* `self.head = None` artinya LinkedList masih kosong (belum ada node).
 
 ---
 
-#  remove_at(index)
+# **FUNGSI INSERT**
 
-## **`def remove_at(self, index):`**
-
-Menghapus node pada posisi tertentu.
-
 ---
-
-## **`if index < 0 or index >= self.length():`**
 
-Validasi index.
+## **3. Insert di Awal**
 
----
+```python
+def insert_at_first(self, data):
+    node = Node(data, self.head)
+    self.head = node
+```
 
-## **`print("index invalid")`**
+**Penjelasan:**
 
-Memberitahu jika index salah.
+* Membuat node baru yang menunjuk head lama.
+* Node baru menjadi head yang baru.
 
 ---
 
-## **`elif index == 0:`**
+## **4. Insert di Akhir**
 
-Jika index 0 → gunakan remove_first().
+```python
+def insert_at_last(self, data):
+    if self.head is None:
+        self.head = Node(data)
+    else:
+        node_sekarang = self.head
+        while node_sekarang.next:
+            node_sekarang = node_sekarang.next
 
----
+        node = Node(data)
+        node_sekarang.next = node
+```
 
-## **`node_sekarang = self.head`**
+**Penjelasan:**
 
-Mulai traversal.
+* Jika list kosong → data langsung jadi head.
+* Jika tidak kosong → loop sampai node terakhir.
+* Tambahkan node baru di akhir.
 
 ---
 
-## **`urutan = 0`**
-
-Penghitung posisi.
-
----
+## **5. Insert di Posisi Tertentu**
 
-## **`while urutan < index - 1:`**
+```python
+def insert_at(self, index, data):
+    if index < 0 or index > self.length() - 1:
+        print("index tidak valid")
+    elif index == 0:
+        self.insert_at_first(data)
+    else:
+        urutan = 0
+        node_sekarang = self.head
 
-Mencari node sebelum node yang akan dihapus.
+        while urutan < index - 1:
+            urutan += 1
+            node_sekarang = node_sekarang.next
 
----
+        node = Node(data, node_sekarang.next)
+        node_sekarang.next = node
+```
 
-## **`node_sekarang = node_sekarang.next`**
+**Penjelasan:**
 
-Bergerak ke kanan.
+* Cek apakah index valid.
+* Jika index = 0 → langsung panggil insert_first.
+* Loop hingga posisi sebelum index.
+* Buat node baru dan sisipkan di tengah.
 
 ---
 
-## **`urutan += 1`**
+# **FUNGSI REMOVE**
 
-Menambah hitungan posisi.
-
 ---
-
-## **`node_sekarang.next = node_sekarang.next.next`**
 
-Memotong node target sehingga terhapus dari rantai.
+## **6. Remove Awal**
 
----
+```python
+def remove_first(self):
+    if self.head is None:
+        print("tidak ada data yang bisa dihapus")
+    else:
+        self.head = self.head.next
+```
 
-#  print()
+**Penjelasan:**
 
-## **`def print(self):`**
+* Jika tidak ada data → tidak bisa hapus.
+* Jika ada → head langsung digeser ke node berikutnya.
 
-Menampilkan semua data dalam Linked List.
-
 ---
-
-## **`if self.head is None:`**
 
-Jika list kosong → tampilkan informasi.
+## **7. Remove Akhir**
 
----
-
-## **`text_print = ''`**
+```python
+def remove_last(self):
+    if self.head is None:
+        print("tidak ada data yang bisa dihapus")
+    elif self.head.next is None:
+        self.head = None
+    else:
+        node_sebelumnya = None
+        node_sekarang = self.head
 
-Variabel untuk menyimpan teks hasil.
+        while node_sekarang.next:
+            node_sebelumnya = node_sekarang
+            node_sekarang = node_sekarang.next
 
----
+        node_sebelumnya.next = None
+```
 
-## **`node_sekarang = self.head`**
+**Penjelasan:**
 
-Mulai dari head.
+* Jika kosong → tidak bisa hapus.
+* Jika hanya satu data → head = None.
+* Jika banyak → loop ke node terakhir.
+* Putuskan pointer node terakhir.
 
 ---
-
-## **`while node_sekarang:`**
-
-Loop menelusuri setiap node.
 
----
+## **8. Remove Posisi Tertentu**
 
-## **`text_print += str(node_sekarang.data) + " → "`**
+```python
+def remove_at(self, index):
+    if index < 0 or index >= self.length():
+        print("index invalid")
+    elif index == 0:
+        self.remove_first()
+    else:
+        urutan = 0
+        node_sekarang = self.head
 
-Tambahkan data node ke teks.
+        while urutan < index - 1:
+            node_sekarang = node_sekarang.next
+            urutan += 1
 
----
+        node_sekarang.next = node_sekarang.next.next
+```
 
-## **`node_sekarang = node_sekarang.next`**
+**Penjelasan:**
 
-Pindah ke node selanjutnya.
+* Validasi index.
+* Jika index 0 → gunakan remove_first.
+* Loop sampai sebelum index.
+* Hapus node dengan memutus pointer.
 
 ---
 
-## **`print(text_print)`**
+# **FUNGSI CETAK**
 
-Cetak seluruh isi Linked List.
+```python
+def print(self):
+    if self.head is None:
+        print("data kosong")
+    else:
+        text_print = ''
+        node_sekarang = self.head
 
----
+        while node_sekarang:
+            text_print += str(node_sekarang.data) + " ==> "
+            node_sekarang = node_sekarang.next
 
-#  length()
+        print(text_print)
+```
 
-## **`def length(self):`**
+**Penjelasan:**
 
-Menghitung jumlah node.
+* Jika kosong → tampilkan "data kosong".
+* Loop semua node dan gabungkan text.
+* Cetak hasil linked list.
 
 ---
-
-## **`urutan = 0`**
-
-Penghitung banyaknya node.
 
----
+# **FUNGSI LENGTH**
 
-## **`data_sekarang = self.head`**
+```python
+def length(self):
+    urutan = 0
+    data_sekarang = self.head
 
-Mulai dari node pertama.
+    while data_sekarang:
+        data_sekarang = data_sekarang.next
+        urutan += 1
 
----
+    return urutan
+```
 
-## **`while data_sekarang:`**
+**Penjelasan:**
 
-Selama masih ada node.
+* Menghitung jumlah node dari head sampai akhir.
 
 ---
 
-## **`data_sekarang = data_sekarang.next`**
+# **BAGIAN PENGUJIAN**
 
-Bergerak ke node selanjutnya.
-
 ---
 
-## **`urutan += 1`**
+## **Membuat LinkedList**
 
-Menambah hitungan node.
+```python
+LL = LinkedList()
+```
 
 ---
-
-## **`return urutan`**
-
-Mengembalikan total jumlah node.
 
----
+## **Insert Data**
 
-#  Bagian MAIN PROGRAM
+```python
+LL.insert_at_first("jeruk")
+LL.insert_at_first("mangga")
+LL.insert_at_first("manggis")
+LL.insert_at_last("apel")
+LL.insert_at(2, "anggur")
+```
 
-## **`LL = LinkedList()`**
+**Penjelasan:**
 
-Membuat objek Linked List.
+* Tambah 3 data di awal.
+* Tambah data di akhir.
+* Tambah data pada index 2.
 
 ---
 
-## Insert data
+## **Remove Data**
 
-* `insert_at_first("jeruk")` → jeruk jadi head
-* `insert_at_first("mangga")` → mangga di depan jeruk
-* `insert_at_first("manggis")` → manggis paling depan
-* `insert_at_last("apel")` → apel di belakang
-* `insert_at(2, "anggur")` → anggur masuk posisi index 2
-
----
+```python
+LL.remove_first()
+LL.remove_last()
+LL.remove_at(1)
+LL.remove_at(1)
+```
 
-## Remove data
+**Penjelasan:**
 
-* `remove_first()` → hapus elemen pertama
-* `remove_last()` → hapus elemen terakhir
-* `remove_at(1)` → hapus index 1
-* `remove_at(1)` → hapus index 1 lagi
+* Hapus data pertama.
+* Hapus data terakhir.
+* Hapus index 1 → dua kali berturut-turut.
 
 ---
 
-## Print final list
+## **Cetak Output**
 
-`LL.print()` → mencetak isi list.
+```python
+LL.print()
+print(LL.length())
+```
 
----
+**Penjelasan:**
 
-## Print panjang list
+* Cetak isi linked list.
+* Cetak jumlah data.
 
-`print(LL.length())` → menampilkan jumlah node saat ini.
-
 ---
-
 
 
-Penjelasan sudah disusun **kode → penjelasan rinci per baris**, lengkap dalam satu README.
